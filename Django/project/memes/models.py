@@ -4,6 +4,10 @@ from django.db import models
 class Meme(models.Model):
     title = models.CharField(max_length=80)
 
+    image = models.ImageField(
+        upload_to="memes/",
+    )
+
     category = models.ForeignKey(
         "catalog.Category",
         on_delete=models.PROTECT,
