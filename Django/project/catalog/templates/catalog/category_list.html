@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Categories | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Categories</h1>
+
+    <p>
+        <a href="{% url 'category-create' %}">Create a category</a>
+    </p>
+
+    {% if categories %}
+        <ul>
+            {% for category in categories %}
+                <li>{{ category.name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No categories have been created yet.</p>
+    {% endif %}
+{% endblock %}

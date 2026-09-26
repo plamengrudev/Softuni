@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ meme.title }} | Meme Atlas{% endblock %}
+
+{% block content %}
+    <article>
+        <h1>{{ meme.title }}</h1>
+
+        {% if meme.image %}
+            <img
+                src="{{ meme.image.url }}"
+                alt="{{ meme.title }}"
+                width="600"
+            >
+        {% endif %}
+
+        <p>
+            Category:
+            <a href="{% url 'category-list' %}">
+                {{ meme.category.name }}
+            </a>
+        </p>
+
+        {% if meme.tags.all %}
+            <p>Tags:</p>
+            <ul>
+                {% for tag in meme.tags.all %}
+                    <li>{{ tag.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            <a href="{% url 'meme-list' %}">Back to memes</a>
+        </p>
+    </article>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% for meme in memes %}
+    <li>
+        <h2>
+            <a href="{% url 'meme-detail' meme.pk %}">
+                {{ meme.title }}
+            </a>
+        </h2>
+
+        {% if meme.image %}
+            <img
+                src="{{ meme.image.url }}"
+                alt="{{ meme.title }}"
+                width="300"
+            >
+        {% endif %}
+    </li>
+{% endfor %}

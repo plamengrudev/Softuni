@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Create Meme | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Create a meme</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div>
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+
+        <div>
+            {{ form.image.label_tag }}
+            {{ form.image }}
+            {{ form.image.errors }}
+        </div>
+
+        <div>
+            {{ form.category.label_tag }}
+            {{ form.category }}
+            {{ form.category.errors }}
+        </div>
+
+        <div>
+            {{ form.tags.label_tag }}
+            {{ form.tags }}
+            {{ form.tags.errors }}
+        </div>
+
+        <button type="submit">Save meme</button>
+    </form>
+
+    <p>
+        <a href="{% url 'category-list' %}">Back to categories</a>
+    </p>
+{% endblock %}
