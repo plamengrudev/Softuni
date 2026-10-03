@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Create Tag | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Create a tag</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div>
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+
+        <button type="submit">Save tag</button>
+    </form>
+
+    <p>
+        <a href="{% url 'tag-list' %}">Back to tags</a>
+    </p>
+{% endblock %}

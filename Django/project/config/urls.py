@@ -23,8 +23,8 @@ from memes.views import home
 
 urlpatterns = [
     path("", home, name="home"),
-    path('admin/', admin.site.urls),
-    path('',include("catalog.urls")),
+    path("admin/", admin.site.urls),
+    path("",include("catalog.urls")),
     path("", include("memes.urls")),
 ]
 

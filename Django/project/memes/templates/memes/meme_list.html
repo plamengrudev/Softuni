@@ -1,17 +1,37 @@
-{% for meme in memes %}
-    <li>
-        <h2>
-            <a href="{% url 'meme-detail' meme.pk %}">
-                {{ meme.title }}
-            </a>
-        </h2>
+{% extends "base.html" %}
 
-        {% if meme.image %}
-            <img
-                src="{{ meme.image.url }}"
-                alt="{{ meme.title }}"
-                width="300"
-            >
-        {% endif %}
-    </li>
-{% endfor %}
+{% block title %}Memes | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Memes</h1>
+
+    <p>
+        <a href="{% url 'meme-create' %}">Create a meme</a>
+    </p>
+
+    {% if memes %}
+        <ul>
+            {% for meme in memes %}
+                <li>
+                    <h2>
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            {{ meme.title }}
+                        </a>
+                    </h2>
+
+                    {% if meme.image %}
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            <img
+                                src="{{ meme.image.url }}"
+                                alt="{{ meme.title }}"
+                                width="300"
+                            >
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No memes have been created yet.</p>
+    {% endif %}
+{% endblock %}
