@@ -1,0 +1,13 @@
+.slide {
+    display: none;
+}
+
+.slide.is-active {
+    display: block;
+}
+
+.slideshow-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}

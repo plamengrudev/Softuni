@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Meme Slideshow | Meme Atlas{% endblock %}
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'memes/css/slideshow.css' %}">
+    <h1>Meme Slideshow</h1>
+
+    {% if memes %}
+        <section id="slideshow" aria-label="Meme slideshow">
+            {% for meme in memes %}
+                <article
+                    class="slide{% if forloop.first %} is-active{% endif %}"
+                    data-slide-index="{{ forloop.counter0 }}"
+                >
+                    <h2>{{ meme.title }}</h2>
+
+                    {% if meme.image %}
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            <img
+                                src="{{ meme.image.url }}"
+                                alt="{{ meme.title }}"
+                                width="600"
+                            >
+                        </a>
+                    {% endif %}
+
+                    <p>
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            View details
+                        </a>
+                    </p>
+                </article>
+            {% endfor %}
+        </section>
+
+        <div class="slideshow-controls">
+            <button type="button" id="previous-slide" aria-label="Previous meme">
+                ← Previous
+            </button>
+        <button type="button" id="next-slide" aria-label="Next meme">
+                Next →
+        </button>
+</div>
+    {% else %}
+        <p>No memes are available for the slideshow yet.</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'meme-list' %}">Back to memes</a>
+    </p>
+
+    <script
+        src="{% static 'memes/js/slideshow.js' %}"
+        defer
+    ></script>
+ 
+{% endblock %}

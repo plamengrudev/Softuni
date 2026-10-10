@@ -43,3 +43,12 @@ def meme_create(request):
     }
 
     return render(request, "memes/meme_form.html", context)
+
+def meme_slideshow(request):
+    memes = Meme.objects.all()
+
+    return render(
+        request,
+        "memes/meme_slideshow.html",
+        {"memes": memes},
+    )

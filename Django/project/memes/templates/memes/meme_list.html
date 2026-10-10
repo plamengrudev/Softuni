@@ -10,9 +10,9 @@
     </p>
 
     {% if memes %}
-        <ul>
+        <section>
             {% for meme in memes %}
-                <li>
+                <article>
                     <h2>
                         <a href="{% url 'meme-detail' meme.pk %}">
                             {{ meme.title }}
@@ -28,9 +28,37 @@
                             >
                         </a>
                     {% endif %}
-                </li>
+
+                    <p>
+                        Category:
+                        <a href="{% url 'category-detail' meme.category.pk %}">
+                            {{ meme.category.name }}
+                        </a>
+                    </p>
+
+                    {% with tags=meme.tags.all %}
+                        {% if tags %}
+                            <p>Tags:</p>
+                            <ul>
+                                {% for tag in tags %}
+                                    <li>
+                                        <a href="{% url 'tag-detail' tag.pk %}">
+                                            {{ tag.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+
+                    <p>
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            View meme
+                        </a>
+                    </p>
+                </article>
             {% endfor %}
-        </ul>
+        </section>
     {% else %}
         <p>No memes have been created yet.</p>
     {% endif %}

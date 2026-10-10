@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Tag
 from .forms import CategoryForm, TagForm
 
@@ -28,6 +28,17 @@ def category_create(request):
 
     return render(request, "catalog/category_form.html", context)
 
+def category_detail(request,pk):
+    category = get_object_or_404(Category,pk=pk)
+    memes=category.memes.all()
+
+    context = {
+        "category": category,
+        "memes":memes,
+    }
+
+    return render(request,"catalog/category_detail.html",context)
+
 
 def tag_list(request):
     tags = Tag.objects.all()
@@ -53,3 +64,14 @@ def tag_create(request):
     }
 
     return render(request, "catalog/tag_form.html",context)
+
+def tag_detail(request, pk):
+    tag = get_object_or_404(Tag, pk=pk)
+    memes = tag.memes.all()
+
+    context = {
+        "tag": tag,
+        "memes": memes,
+    }
+
+    return render(request, "catalog/tag_detail.html", context)
