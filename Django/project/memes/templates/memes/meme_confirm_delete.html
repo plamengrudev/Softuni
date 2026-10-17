@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ meme.title }} | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Delete meme</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ meme.title }}</strong>?
+    </p>
+
+    {% if meme.image %}
+        <img
+            src="{{ meme.image.url }}"
+            alt="{{ meme.title }}"
+            width="300"
+        >
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">Yes, delete this meme</button>
+        <a href="{% url 'meme-detail' meme.pk %}">
+            Cancel
+        </a>
+    </form>
+{% endblock %}

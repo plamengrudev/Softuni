@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ showcase.title }} | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Delete showcase</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ showcase.title }}</strong>?
+    </p>
+
+    {% if showcase.description %}
+        <p>{{ showcase.description }}</p>
+    {% endif %}
+
+    <p>
+        This will remove the showcase, but not the memes inside it.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">
+            Yes, delete this showcase
+        </button>
+
+        <a href="{% url 'showcase-detail' showcase.pk %}">
+            Cancel
+        </a>
+    </form>
+{% endblock %}

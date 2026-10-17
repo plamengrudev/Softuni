@@ -30,6 +30,8 @@
                         {% endif %}
                     </article>
                 {% endfor %}
+
+                {% include "pagination.html" %}
         </section>
     {% else %}
         <p>No memes have been added to this category yet.</p>

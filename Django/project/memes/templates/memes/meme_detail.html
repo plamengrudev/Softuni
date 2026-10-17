@@ -33,7 +33,16 @@
         {% endwith %}
 
         <p>
-            <a href="{% url 'meme-list' %}">Back to memes</a>
+            <a href="{% url 'meme-edit' meme.pk %}">
+                Edit meme
+            </a>
         </p>
+
+        <p>
+            <a href="{% url 'meme-delete' meme.pk %}">
+                Delete meme
+            </a>
+        </p>
+
     </article>
 {% endblock %}

@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
+
 from .models import Category, Tag
 from .forms import CategoryForm, TagForm
 
@@ -30,11 +32,12 @@ def category_create(request):
 
 def category_detail(request,pk):
     category = get_object_or_404(Category,pk=pk)
-    memes=category.memes.all()
+    paginator= Paginator(category.memes.all(),6)
+    page_obj = paginator.get_page(request.GET.get("page"))
 
     context = {
         "category": category,
-        "memes":memes,
+        "page_obj": page_obj
     }
 
     return render(request,"catalog/category_detail.html",context)
@@ -67,11 +70,12 @@ def tag_create(request):
 
 def tag_detail(request, pk):
     tag = get_object_or_404(Tag, pk=pk)
-    memes = tag.memes.all()
+    paginator = Paginator(tag.memes.all(),6)
+    page_obj = paginator.get_page(request.GET.get("page"))
 
     context = {
         "tag": tag,
-        "memes": memes,
+        "page_obj": page_obj,
     }
 
     return render(request, "catalog/tag_detail.html", context)

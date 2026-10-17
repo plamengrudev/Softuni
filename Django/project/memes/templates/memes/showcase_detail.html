@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}{{ showcase.title }} | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>{{ showcase.title }}</h1>
+
+    {% if showcase.description %}
+        <p>{{ showcase.description }}</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'showcase-list' %}">
+            Back to showcases
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'showcase-edit' showcase.pk %}">
+            Edit showcase
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'showcase-delete' showcase.pk %}">
+            Delete showcase
+        </a>
+    </p>
+
+    {% if page_obj %}
+        <section>
+            {% for meme in page_obj %}
+                <article>
+                    <h2>
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            {{ meme.title }}
+                        </a>
+                    </h2>
+
+                    {% if meme.image %}
+                        <a href="{% url 'meme-detail' meme.pk %}">
+                            <img
+                                src="{{ meme.image.url }}"
+                                alt="{{ meme.title }}"
+                                width="300"
+                            >
+                        </a>
+                    {% endif %}
+                </article>
+            {% endfor %}
+
+            {% include "pagination.html" %}
+        </section>
+
+
+    {% else %}
+        <p>This showcase does not contain any memes yet.</p>
+    {% endif %}
+{% endblock %}
