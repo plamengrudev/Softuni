@@ -9,9 +9,4 @@ urlpatterns = [
     path('memes/<int:pk>/edit/', views.meme_edit,name="meme-edit"),
     path('memes/<int:pk>/delete/', views.meme_delete,name="meme-delete"),
     path('memes/<int:pk>/', views.meme_detail, name="meme-detail"),
-    path("showcases/", views.showcase_list, name="showcase-list"),
-    path('showcases/create/', views.showcase_create, name="showcase-create"),
-    path("showcases/<int:pk>/", views.showcase_detail, name="showcase-detail"),
-    path("showcases/<int:pk>/edit/", views.showcase_edit, name="showcase-edit"),
-    path("showcases/<int:pk>/delete/",views.showcase_delete, name="showcase-delete")
 ]

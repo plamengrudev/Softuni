@@ -20,16 +20,6 @@ class Meme(models.Model):
         related_name="memes",
     )
 
-    def __str__(self):
-        return self.title
-    
-class Showcase(models.Model):
-    title = models.CharField(max_length=80)
-
-    description = models.TextField(blank=True)
-
-    memes = models.ManyToManyField(Meme, blank=True, related_name="showcases")
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

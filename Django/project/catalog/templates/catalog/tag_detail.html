@@ -9,9 +9,9 @@
         <a href="{% url 'tag-list' %}">Back to tags</a>
     </p>
 
-    {% if memes %}
+    {% if page_obj.object_list %}
         <section>
-            {% for meme in memes %}
+            {% for meme in page_obj %}
                 <article>
                     <h2>
                         <a href="{% url 'meme-detail' meme.pk %}">
@@ -31,8 +31,9 @@
                 </article>
             {% endfor %}
 
-            {% include "pagination.html" %}
+            
         </section>
+        {% include "pagination.html" %}
     {% else %}
         <p>No memes have been assigned this tag yet.</p>
     {% endif %}

@@ -1,11 +1,16 @@
 {% extends "base.html" %}
-
+{% load meme_filters %}
 {% block title %}{{ meme.title }} | Meme Atlas{% endblock %}
 
 {% block content %}
     <article>
         <h1>{{ meme.title }}</h1>
-
+        <p>
+            <div>
+            <strong>Added: </strong>
+            {{ meme.created_at|date:"M j, Y, P" }}
+            </div>
+        </p>
         {% if meme.image %}
             <img
                 src="{{ meme.image.url }}"
@@ -26,12 +31,16 @@
                 <p>Tags:</p>
                 <ul>
                     {% for tag in tags %}
-                        <li>{{ tag.name }}</li>
+                        <li>
+                            <a href="{% url 'tag-detail' tag.pk %}">
+                                {{ tag.name|hashtag }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}
         {% endwith %}
-
+        
         <p>
             <a href="{% url 'meme-edit' meme.pk %}">
                 Edit meme

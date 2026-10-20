@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ collection.title }} | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Delete collection</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ collection.title }}</strong>?
+    </p>
+
+    {% if collection.description %}
+        <p>{{ collection.description }}</p>
+    {% endif %}
+
+    <p>
+        This will remove the collection, but not the memes inside it.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">
+            Yes, delete this collection
+        </button>
+
+        <a href="{% url 'collection-detail' collection.pk %}">
+            Cancel
+        </a>
+    </form>
+{% endblock %}

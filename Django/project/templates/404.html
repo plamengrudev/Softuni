@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Lost in the Galaxy | Meme Atlas{% endblock %}
+
+{% block content %}
+    <section class="not-found" aria-labelledby="not-found-title">
+        <p>404 · LOST IN SPACE</p>
+        <h1 id="not-found-title">This page is not the destination you're looking for.</h1>
+        <p>{{ not_found_message }}</p>
+        <p>
+            <a href="{% url 'home' %}">Return to the Meme Atlas</a>
+        </p>
+    </section>
+{% endblock %}

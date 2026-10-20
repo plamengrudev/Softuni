@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}{{ showcase.title }} | Meme Atlas{% endblock %}
+{% block title %}{{ collection.title }} | Meme Atlas{% endblock %}
 
 {% block content %}
-    <h1>{{ showcase.title }}</h1>
+    <h1>{{ collection.title }}</h1>
 
-    {% if showcase.description %}
-        <p>{{ showcase.description }}</p>
+    {% if collection.description %}
+        <p>{{ collection.description }}</p>
     {% endif %}
 
     <p>
-        <a href="{% url 'showcase-list' %}">
-            Back to showcases
+        <a href="{% url 'collection-list' %}">
+            Back to collections
         </a>
     </p>
 
     <p>
-        <a href="{% url 'showcase-edit' showcase.pk %}">
-            Edit showcase
+        <a href="{% url 'collection-edit' collection.pk %}">
+            Edit collection
         </a>
     </p>
 
     <p>
-        <a href="{% url 'showcase-delete' showcase.pk %}">
-            Delete showcase
+        <a href="{% url 'collection-delete' collection.pk %}">
+            Delete collection
         </a>
     </p>
 
-    {% if page_obj %}
+    {% if page_obj.object_list %}
         <section>
             {% for meme in page_obj %}
                 <article>
@@ -49,11 +49,11 @@
                 </article>
             {% endfor %}
 
-            {% include "pagination.html" %}
+            
         </section>
-
+        {% include "pagination.html" %}
 
     {% else %}
-        <p>This showcase does not contain any memes yet.</p>
+        <p>This collection does not contain any memes yet.</p>
     {% endif %}
 {% endblock %}

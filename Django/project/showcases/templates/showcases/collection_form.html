@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {% if showcase %}Edit {{ showcase.title }}{% else %}Create Showcase{% endif %}
+    {% if collection %}Edit {{ collection.title }}{% else %}Create Collection{% endif %}
     | Meme Atlas
 {% endblock %}
 
 {% block content %}
-    {% if showcase %}
-        <h1>Edit showcase</h1>
+    {% if collection %}
+        <h1>Edit collection</h1>
     {% else %}
-        <h1>Create a showcase</h1>
+        <h1>Create a collection</h1>
     {% endif %}
 
     <form method="post">
@@ -36,18 +36,18 @@
         </div>
 
         <button type="submit">
-            {% if showcase %}Save changes{% else %}Save showcase{% endif %}
+            {% if collection %}Save changes{% else %}Save collection{% endif %}
         </button>
     </form>
 
     <p>
-        {% if showcase %}
-            <a href="{% url 'showcase-detail' showcase.pk %}">
+        {% if collection %}
+            <a href="{% url 'collection-detail' collection.pk %}">
                 Cancel
             </a>
         {% else %}
-            <a href="{% url 'showcase-list' %}">
-                Back to showcases
+            <a href="{% url 'collection-list' %}">
+                Back to collections
             </a>
         {% endif %}
     </p>

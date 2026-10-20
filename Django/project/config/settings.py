@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u=oo#dse@^9roi9z=&1&)@hjtxxm02w4=br@m)p*h*s=ct1pjb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "::1"]
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 # Adding my apps here
     "memes.apps.MemesConfig",
     "catalog.apps.CatalogConfig",
-    "showcases.apps.ShowcasesConfig",    
+    "showcases.apps.ShowcasesConfig",
 ]
 
 MIDDLEWARE = [
