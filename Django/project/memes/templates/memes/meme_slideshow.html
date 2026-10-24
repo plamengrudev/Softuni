@@ -13,7 +13,7 @@
 
     <form method="get" class="sort-form">
         <label for="sort">Order by</label>
-        <select name="sort" id="sort" onchange="this.form.submit()">
+        <select name="sort" title="Order the sludeshow by newest or by rating" id="sort" onchange="this.form.submit()">
             <option value="">Newest</option>
             <option value="top"{% if request.GET.sort == "top" %} selected{% endif %}>Top rated</option>
         </select>
@@ -48,10 +48,10 @@
         </section>
 
         <div class="slideshow-controls">
-            <button type="button" id="previous-slide" aria-label="Previous meme">
+            <button type="button" title="Previous meme/Left arrow kye"id="previous-slide" aria-label="Previous meme">
                 ← Previous
             </button>
-        <button type="button" id="next-slide" aria-label="Next meme">
+        <button type="button" title="Next meme/Right arrow key" id="next-slide" aria-label="Next meme">
                 Next →
         </button>
 </div>

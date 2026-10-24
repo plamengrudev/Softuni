@@ -7,7 +7,7 @@
 
     <p>
         <a href="{% url 'category-list' %}">Back to categories</a>
-        <a href="{% url 'category-delete' category.pk %}">Delete category</a>
+        <a href="{% url 'category-delete' category.pk %}" title="Only empty categories can be deleted">Delete category</a>
     </p>
 
     {% if page_obj.object_list %}

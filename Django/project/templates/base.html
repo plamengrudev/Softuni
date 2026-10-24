@@ -18,7 +18,7 @@
                 <a href="{% url 'collection-list' %}">Collections</a>
                 <a href="{% url 'category-list' %}">Categories</a>
                 <a href="{% url 'tag-list' %}">Tags</a>
-                <a class="nav-cta" href="{% url 'meme-create' %}">Create a meme</a>
+                <a class="nav-cta" href="{% url 'meme-create' %}" title="Upload a meme">Create a meme</a>
             </div>
             <form id="site-search-form" action="{% url 'search-results' %}" method="get" hidden></form>
             <div class="site-search" role="search">

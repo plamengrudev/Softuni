@@ -45,7 +45,7 @@
             <form method="post" class="vote-form">
                 {% csrf_token %}
                 <input type="hidden" name="vote_token" value="{{ vote_token }}">
-                <button type="submit" name="vote" value="up" class="vote-button vote-button--up" aria-label="Thumbs up">
+                <button type="submit" name="vote" title="Vote this meme up" value="up" class="vote-button vote-button--up" aria-label="Thumbs up">
                     👍
                 </button>
             </form>
@@ -53,7 +53,7 @@
             <form method="post" class="vote-form">
                 {% csrf_token %}
                 <input type="hidden" name="vote_token" value="{{ vote_token }}">
-                <button type="submit" name="vote" value="down" class="vote-button vote-button--down" aria-label="Thumbs down">
+                <button type="submit" name="vote" title="Downvote this meme" value="down" class="vote-button vote-button--down" aria-label="Thumbs down">
                     👎
                 </button>
             </form>
@@ -66,7 +66,7 @@
         </p>
 
         <p>
-            <a href="{% url 'meme-delete' meme.pk %}">
+            <a href="{% url 'meme-delete' meme.pk %}" title="Delete meme">
                 Delete meme
             </a>
         </p>
