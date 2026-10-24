@@ -19,13 +19,16 @@ from django.urls import include, path, re_path
 from django.conf import settings
 from django.views.static import serve
 
-from memes.views import home
+from memes.views import meme_slideshow
+from config.search_views import search_results, search_suggestions
 
 handler404 = "config.views.custom_404"
 
 urlpatterns = [
-    path("", home, name="home"),
+    path("", meme_slideshow, name="home"),
     path("admin/", admin.site.urls),
+    path("search/", search_results, name="search-results"),
+    path("search/suggestions/", search_suggestions, name="search-suggestions"),
     path("",include("catalog.urls")),
     path("", include("memes.urls")),
     path("", include("showcases.urls"))

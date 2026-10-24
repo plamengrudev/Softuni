@@ -1,3 +1,6 @@
+import secrets
+
+from django.db.models import F
 from django.shortcuts import redirect, render, get_object_or_404
 
 from .forms import MemeForm
@@ -11,8 +14,23 @@ def home(request):
 def meme_detail(request, pk):
     meme = get_object_or_404(Meme, pk=pk)
 
+    if request.method == "POST":
+        vote = request.POST.get("vote")
+        vote_token = request.POST.get("vote_token")
+        used_tokens = request.session.get("meme_vote_tokens", [])
+
+        if vote in ("up", "down") and vote_token and vote_token not in used_tokens:
+            rating_change = 1 if vote == "up" else -1
+            Meme.objects.filter(pk=meme.pk).update(rating=F("rating") + rating_change)
+            request.session["meme_vote_tokens"] = (used_tokens + [vote_token])[-500:]
+
+        return redirect("meme-detail", pk=meme.pk)
+
+    vote_token = secrets.token_urlsafe(24)
+
     context = {
-        "meme": meme
+        "meme": meme,
+        "vote_token": vote_token
     }
 
     return render(request, "memes/meme_detail.html", context)
@@ -29,7 +47,7 @@ def meme_create(request):
         form = MemeForm()
 
     context = {
-        "form": form,
+        "form": form
     }
 
     return render(request, "memes/meme_form.html", context)

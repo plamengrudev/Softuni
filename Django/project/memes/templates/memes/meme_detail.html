@@ -40,6 +40,24 @@
                 </ul>
             {% endif %}
         {% endwith %}
+
+        <section class="meme-voting" aria-label="Meme rating">
+            <form method="post" class="vote-form">
+                {% csrf_token %}
+                <input type="hidden" name="vote_token" value="{{ vote_token }}">
+                <button type="submit" name="vote" value="up" class="vote-button vote-button--up" aria-label="Thumbs up">
+                    👍
+                </button>
+            </form>
+            <p class="meme-rating" aria-live="polite">{{ meme.rating }}</p>
+            <form method="post" class="vote-form">
+                {% csrf_token %}
+                <input type="hidden" name="vote_token" value="{{ vote_token }}">
+                <button type="submit" name="vote" value="down" class="vote-button vote-button--down" aria-label="Thumbs down">
+                    👎
+                </button>
+            </form>
+        </section>
         
         <p>
             <a href="{% url 'meme-edit' meme.pk %}">

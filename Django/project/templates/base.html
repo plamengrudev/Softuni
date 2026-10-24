@@ -4,18 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Meme Atlas{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'memes/css/site.css' %}">
+    {% block extra_head %}{% endblock %}
+    <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
 </head>
 <body>
     <header>
-        <nav>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'collection-list' %}">Collections</a>
-            <a href="{% url 'category-list' %}">Categories</a>
-            <a href="{% url 'meme-create' %}">Create Meme</a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a class="brand" href="{% url 'home' %}">Meme Atlas</a>
+            <div class="nav-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'collection-list' %}">Collections</a>
+                <a href="{% url 'category-list' %}">Categories</a>
+                <a href="{% url 'tag-list' %}">Tags</a>
+                <a class="nav-cta" href="{% url 'meme-create' %}">Create a meme</a>
+            </div>
+            <form id="site-search-form" action="{% url 'search-results' %}" method="get" hidden></form>
+            <div class="site-search" role="search">
+                <input
+                    id="site-search-input"
+                    type="search"
+                    name="q"
+                    form="site-search-form"
+                    aria-label="Search memes, categories, collections, and tags"
+                    placeholder="Search titles, tags..."
+                    autocomplete="off"
+                    hx-get="{% url 'search-suggestions' %}"
+                    hx-trigger="input changed delay:250ms"
+                    hx-target="#search-suggestions"
+                    hx-swap="innerHTML"
+                    aria-controls="search-suggestions"
+                >
+                <div id="search-suggestions" class="search-suggestions" role="listbox" aria-live="polite"></div>
+            </div>
         </nav>
     </header>
 
-    <main>
+    <main class="page-shell">
         {% block content %}
         {% endblock %}
     </main>

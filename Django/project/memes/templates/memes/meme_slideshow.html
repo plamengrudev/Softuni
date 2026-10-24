@@ -3,9 +3,12 @@
 
 {% block title %}Meme Slideshow | Meme Atlas{% endblock %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'memes/css/slideshow.css' %}">
+{% endblock %}
+
 {% block content %}
 
-    <link rel="stylesheet" href="{% static 'memes/css/slideshow.css' %}">
     <h1>Meme Slideshow</h1>
 
     {% if memes %}

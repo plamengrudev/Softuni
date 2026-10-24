@@ -1,0 +1,12 @@
+{% if query|length < 2 %}
+    <p>Type at least two characters.</p>
+{% elif results %}
+    {% for result in results %}
+        <a href="{{ result.url }}" role="option">
+            <span class="search-result-type {{ result.match_class }}">{{ result.match_type }}</span>
+            <span class="search-result-title">{{ result.title }}</span>
+        </a>
+    {% endfor %}
+{% else %}
+    <p>No matches found.</p>
+{% endif %}

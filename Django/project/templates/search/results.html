@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Search | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Search results</h1>
+
+    {% if query %}
+        <p>Results for “{{ query }}”</p>
+    {% endif %}
+
+    {% if results %}
+        <ul class="search-results-list">
+            {% for result in results %}
+                <li>
+                    <span class="search-result-type {{ result.match_class }}">{{ result.match_type }}</span>
+                    <a href="{{ result.url }}">{{ result.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>No matches found.</p>
+    {% endif %}
+{% endblock %}
