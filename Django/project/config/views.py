@@ -21,3 +21,6 @@ def custom_404(request, exception):
 
 def custom_500(request):
     return render(request, "500.html", status=500)
+
+def about(request):
+    return render(request, "aboutus.html")

@@ -21,6 +21,7 @@ from django.views.static import serve
 
 from memes.views import meme_slideshow
 from config.search_views import search_results, search_suggestions
+from config.views import about
 
 handler404 = "config.views.custom_404"
 handler500 = "config.views.custom_500"
@@ -32,7 +33,8 @@ urlpatterns = [
     path("search/suggestions/", search_suggestions, name="search-suggestions"),
     path("",include("catalog.urls")),
     path("", include("memes.urls")),
-    path("", include("showcases.urls"))
+    path("", include("showcases.urls")),
+    path('about/', about, name="about")
 ]
 
 urlpatterns += [

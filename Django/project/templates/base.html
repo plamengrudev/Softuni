@@ -9,7 +9,7 @@
     {% block extra_head %}{% endblock %}
     <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
 </head>
-<body>
+<body id="top">
     <header>
         <nav class="site-nav" aria-label="Main navigation">
             <a class="brand" href="{% url 'home' %}">Meme Atlas</a>
@@ -54,7 +54,23 @@
     </main>
 
     <footer>
-        <p>Meme Atlas</p>
+        <p>
+            <a href="{% url 'home' %}">Meme Atlas</a>
+        </p>
+        <p>
+            <a href="{% url 'collection-list' %}">Collections</a>
+        </p>
+        <p>
+            <a href="{% url 'category-list' %}">Categories</a>
+        </p>
+        <p>
+            <a href="{% url 'tag-list' %}">Tags</a>
+        </p>
+        <p>
+            <a href="{% url 'about' %}">About us</a>
+        </p>
     </footer>
+
+    <a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top">&uarr;</a>
 </body>
 </html>

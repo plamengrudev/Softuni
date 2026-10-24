@@ -16,6 +16,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     min-height: 100vh;
     margin: 0;
@@ -243,6 +247,11 @@ main nav[aria-label="Pagination"] {
 }
 
 footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 2rem;
     padding: 1.5rem 1.25rem;
     border-top: 1px solid var(--line);
     color: #e9f1ef;
@@ -252,6 +261,50 @@ footer {
 
 footer p {
     margin: 0;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration-thickness: 2px;
+}
+
+footer a:focus-visible {
+    outline-color: #fff;
+}
+
+.back-to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--leaf);
+    box-shadow: 0 8px 22px rgb(16 56 76 / 25%);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.back-to-top:hover {
+    color: #fff;
+    background: var(--leaf-dark);
+    transform: translateY(-2px);
+}
+
+.back-to-top:focus-visible {
+    outline-color: #d7a85a;
 }
 
 @media (max-width: 760px) {
