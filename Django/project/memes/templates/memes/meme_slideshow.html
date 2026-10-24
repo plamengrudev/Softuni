@@ -11,6 +11,14 @@
 
     <h1>Meme Slideshow</h1>
 
+    <form method="get" class="sort-form">
+        <label for="sort">Order by</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="">Newest</option>
+            <option value="top"{% if request.GET.sort == "top" %} selected{% endif %}>Top rated</option>
+        </select>
+    </form>
+
     {% if memes %}
         <section id="slideshow" aria-label="Meme slideshow">
             {% for meme in memes %}

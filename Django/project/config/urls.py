@@ -23,6 +23,7 @@ from memes.views import meme_slideshow
 from config.search_views import search_results, search_suggestions
 
 handler404 = "config.views.custom_404"
+handler500 = "config.views.custom_500"
 
 urlpatterns = [
     path("", meme_slideshow, name="home"),

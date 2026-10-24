@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 from .forms import CollectionForm
 from .models import Showcase
@@ -21,6 +22,7 @@ def collection_create(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "Collection created.")
             return redirect("collection-list")
     else:
         form = CollectionForm()
@@ -53,6 +55,7 @@ def collection_edit(request, pk):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "Collection updated.")
             return redirect("collection-detail", pk=collection.pk)
     else:
         form = CollectionForm(instance=collection)
@@ -68,6 +71,7 @@ def collection_delete(request,pk):
 
     if request.method == "POST":
         collection.delete()
+        messages.success(request, "Collection deleted.")
         return redirect("collection-list")
     
     return render(request,"showcases/collection_confirm_delete.html",

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load meme_tags %}
+
 {% block title %}{{ collection.title }} | Meme Atlas{% endblock %}
 
 {% block content %}
@@ -30,23 +32,7 @@
     {% if page_obj.object_list %}
         <section>
             {% for meme in page_obj %}
-                <article>
-                    <h2>
-                        <a href="{% url 'meme-detail' meme.pk %}">
-                            {{ meme.title }}
-                        </a>
-                    </h2>
-
-                    {% if meme.image %}
-                        <a href="{% url 'meme-detail' meme.pk %}">
-                            <img
-                                src="{{ meme.image.url }}"
-                                alt="{{ meme.title }}"
-                                width="300"
-                            >
-                        </a>
-                    {% endif %}
-                </article>
+                {% meme_card meme %}
             {% endfor %}
 
             

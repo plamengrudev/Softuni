@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 from memes.models import Meme
 
 
@@ -19,6 +19,16 @@ class Showcase(models.Model):
 
     class Meta:
         db_table = "memes_showcase"
+        ordering = ["-created_at", "-pk"]
+        verbose_name="collection"
+        verbose_name_plural= "collections"
+    
+    def get_absolute_url(self):
+        return reverse("collection-detail",kwargs={"pk": self.pk})
+    
+    def meme_count(self):
+        return self.memes.count()
+
 
     def __str__(self):
         return self.title

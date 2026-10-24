@@ -16,6 +16,7 @@
                     <a href="{% url 'tag-detail' tag.pk %}">
                         {{ tag.name }}
                     </a>
+                    ({{ tag.meme_count }})
                 </li>
             {% endfor %}
         </ul>

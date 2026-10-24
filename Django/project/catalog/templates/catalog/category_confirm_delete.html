@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ category.name }} | Meme Atlas{% endblock %}
+
+{% block content %}
+    <h1>Delete category</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ category.name }}</strong>?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">Yes, delete this category</button>
+        <a href="{% url 'category-detail' category.pk %}">Cancel</a>
+    </form>
+{% endblock %}

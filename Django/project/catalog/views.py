@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib import messages
+from django.db.models import ProtectedError
 
 from .models import Category, Tag
 from .forms import CategoryForm, TagForm
@@ -20,6 +22,7 @@ def category_create(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "Category created.")
             return redirect("category-list")
     else:
         form = CategoryForm()
@@ -43,6 +46,28 @@ def category_detail(request,pk):
     return render(request,"catalog/category_detail.html",context)
 
 
+def category_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    if request.method == "POST":
+        try:
+            category.delete()
+        except ProtectedError:
+            messages.error(
+                request,
+                "This category still has memes and cannot be deleted."
+            )
+            return redirect("category-detail", pk=pk)
+
+        messages.success(request, "Category deleted.")
+        return redirect("category-list")
+    return render(
+        request,
+        "catalog/category_confirm_delete.html",
+        {"category": category}
+    )
+
+
 def tag_list(request):
     tags = Tag.objects.all()
 
@@ -58,6 +83,7 @@ def tag_create(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "Tag created.")
             return redirect("tag-list")
     else:
         form = TagForm()

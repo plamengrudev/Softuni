@@ -715,3 +715,35 @@ div.site-search #search-suggestions .search-result-type.match-tag {
     color: #5c3478 !important;
     background: #eadcf5 !important;
 }
+
+.messages {
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+}
+
+.messages .message {
+    margin: 0 0 0.6rem;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--paper);
+}
+
+.messages .message.success {
+    color: #20552e;
+    border-color: #b9d9be;
+    background: #e6f3e8;
+}
+
+.messages .message.warning {
+    color: #6b4a12;
+    border-color: #ecd9a6;
+    background: #fbf2dc;
+}
+
+.messages .message.error {
+    color: #a33c31;
+    border-color: #e6bcb6;
+    background: #fbeae8;
+}

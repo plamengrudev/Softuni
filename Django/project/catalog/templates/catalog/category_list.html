@@ -16,6 +16,7 @@
                     <a href="{% url 'category-detail' category.pk %}">
                         {{ category.name }}
                     </a>
+                    ({{ category.meme_count }})
                 </li>
             {% endfor %}
         </ul>
