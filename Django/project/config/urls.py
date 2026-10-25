@@ -23,6 +23,10 @@ from memes.views import meme_slideshow
 from config.search_views import search_results, search_suggestions
 from config.views import about
 
+from django.conf import settings
+from django.contrib.staticfiles.views import serve as static_serve
+from django.views.static import serve
+
 handler404 = "config.views.custom_404"
 handler500 = "config.views.custom_500"
 
@@ -38,6 +42,11 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    re_path(
+        r"^static/(?P<path>.*)$",
+        static_serve,
+        {"insecure": True},
+    ),
     re_path(
         r"^media/(?P<path>.*)$",
         serve,
