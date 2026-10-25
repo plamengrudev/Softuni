@@ -21,7 +21,7 @@
 
         <p>
             Category:
-            <a href="{% url 'category-list' %}">
+            <a href="{% url 'category-detail' meme.category.pk %}">
                 {{ meme.category.name }}
             </a>
         </p>

@@ -1,107 +1,78 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.db.models import ProtectedError
-
+from django.http import HttpResponseRedirect
+from django.views.generic import ListView, CreateView, DeleteView, DetailView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from .models import Category, Tag
 from .forms import CategoryForm, TagForm
 
 
-def category_list(request):
-    categories = Category.objects.all()
 
-    context = {
-        "categories": categories,
-    }
-
-    return render(request, "catalog/category_list.html", context)
-
-def category_create(request):
-    if request.method == "POST":
-        form = CategoryForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Category created.")
-            return redirect("category-list")
-    else:
-        form = CategoryForm()
-
-    context = {
-        "form": form,
-    }
-
-    return render(request, "catalog/category_form.html", context)
-
-def category_detail(request,pk):
-    category = get_object_or_404(Category,pk=pk)
-    paginator= Paginator(category.memes.all(),6)
-    page_obj = paginator.get_page(request.GET.get("page"))
-
-    context = {
-        "category": category,
-        "page_obj": page_obj
-    }
-
-    return render(request,"catalog/category_detail.html",context)
+class CategoryListView(ListView):
+    model=Category
+    template_name="catalog/category_list.html"
+    context_object_name = "categories"
 
 
-def category_delete(request, pk):
-    category = get_object_or_404(Category, pk=pk)
 
-    if request.method == "POST":
+class CategoryCreateView(SuccessMessageMixin, CreateView):
+    model = Category
+    form_class= CategoryForm
+    template_name = "catalog/category_form.html"
+    success_url = reverse_lazy("category-list")
+    success_message ="Category created"
+
+
+class PaginatedMemeDetailView(DetailView):
+    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = Paginator(self.object.memes.all(),self.paginate_by)
+        context["page_obj"] = paginator.get_page(self.request.GET.get("page"))
+        return context
+
+class CategoryDetailView(PaginatedMemeDetailView):
+    model = Category
+    template_name = "catalog/category_detail.html"
+
+
+class CategoryDeleteView(SuccessMessageMixin,DeleteView):
+    model = Category
+    template_name = "catalog/category_confirm_delete.html"
+    success_url = reverse_lazy("category-list")
+    success_message = "Category deleted"
+
+    def form_valid(self, form):
         try:
-            category.delete()
+            return super().form_valid(form)
         except ProtectedError:
             messages.error(
-                request,
-                "This category still has memes and cannot be deleted."
+                self.request, "This category still has memes and cannot be deleted"
             )
-            return redirect("category-detail", pk=pk)
+            return HttpResponseRedirect(self.object.get_absolute_url())
 
-        messages.success(request, "Category deleted.")
-        return redirect("category-list")
-    return render(
-        request,
-        "catalog/category_confirm_delete.html",
-        {"category": category}
-    )
+class TagListView(ListView):
+    model = Tag
+    template_name= "catalog/tag_list.html"
+    context_object_name = "tags"
 
 
-def tag_list(request):
-    tags = Tag.objects.all()
+class TagCreateView(SuccessMessageMixin,CreateView):
+    model = Tag
+    form_class=TagForm
+    template_name = "catalog/tag_form.html"
+    success_url=reverse_lazy("tag-list")
+    success_message="Tag created"
 
-    context = {
-        "tags": tags,
-    }
+class TagDetailView(PaginatedMemeDetailView):
+    model = Tag
+    template_name = "catalog/tag_detail.html" 
 
-    return render(request, "catalog/tag_list.html", context)
-
-def tag_create(request):
-    if request.method == "POST":
-        form = TagForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Tag created.")
-            return redirect("tag-list")
-    else:
-        form = TagForm()
-
-    context = {
-        "form": form,
-    }
-
-    return render(request, "catalog/tag_form.html",context)
-
-def tag_detail(request, pk):
-    tag = get_object_or_404(Tag, pk=pk)
-    paginator = Paginator(tag.memes.all(),6)
-    page_obj = paginator.get_page(request.GET.get("page"))
-
-    context = {
-        "tag": tag,
-        "page_obj": page_obj,
-    }
-
-    return render(request, "catalog/tag_detail.html", context)
+class TagDeleteView(SuccessMessageMixin,DeleteView):
+    model = Tag
+    template_name= "catalog/tag_confirm_delete.html"
+    success_url=reverse_lazy("tag-list")
+    success_message = "Tag deleted."

@@ -8,6 +8,7 @@
 
     <p>
         <a href="{% url 'tag-list' %}">Back to tags</a>
+        <a href="{% url 'tag-delete' tag.pk %}" title="Memes keep existing, only the tag is removed">Delete tag</a>
     </p>
 
     {% if page_obj.object_list %}
