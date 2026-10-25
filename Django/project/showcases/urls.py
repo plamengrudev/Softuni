@@ -4,9 +4,9 @@ from . import views
 
 
 urlpatterns = [
-    path("collections/", views.collection_list, name="collection-list"),
-    path('collections/create/', views.collection_create, name="collection-create"),
-    path("collections/<int:pk>/", views.collection_detail, name="collection-detail"),
-    path("collections/<int:pk>/edit/", views.collection_edit, name="collection-edit"),
-    path("collections/<int:pk>/delete/",views.collection_delete, name="collection-delete")
+    path("collections/", views.CollectionListView.as_view(), name="collection-list"),
+    path('collections/create/', views.CollectionCreateView.as_view(), name="collection-create"),
+    path("collections/<int:pk>/", views.CollectionDetailView.as_view(), name="collection-detail"),
+    path("collections/<int:pk>/edit/", views.CollectionUpdateView.as_view(), name="collection-edit"),
+    path("collections/<int:pk>/delete/",views.CollectionDeleteView.as_view(), name="collection-delete")
 ]

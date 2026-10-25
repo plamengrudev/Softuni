@@ -1,81 +1,51 @@
-from django.shortcuts import redirect, render, get_object_or_404
 from django.core.paginator import Paginator
-from django.contrib import messages
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 
 from .forms import CollectionForm
 from .models import Showcase
 
 
-def collection_list(request):
-    collections = Showcase.objects.all()
+class PaginatedMemeDetailView(DetailView):
+    paginate_by=6
 
-    return render(
-        request,
-        "showcases/collection_list.html",
-        {"collections": collections}
-    )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        memes=self.object.memes.order_by("pk")
+        paginator= Paginator(memes,self.paginate_by)
+        context["page_obj"] =paginator.get_page(self.request.GET.get("page"))
+        return context
+
+class CollectionListView(ListView):
+    model = Showcase
+    template_name = "showcases/collection_list.html"
+    context_object_name="collections"
 
 
-def collection_create(request):
-    if request.method == "POST":
-        form = CollectionForm(request.POST)
+class CollectionCreateView(SuccessMessageMixin, CreateView):
+    model = Showcase
+    form_class=CollectionForm
+    template_name="showcases/collection_form.html"
+    success_url= reverse_lazy("collection-list")
+    success_message = "Collection created"
 
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Collection created.")
-            return redirect("collection-list")
-    else:
-        form = CollectionForm()
+class CollectionUpdateView(SuccessMessageMixin, UpdateView):
+    model= Showcase
+    form_class=CollectionForm
+    template_name= "showcases/collection_form.html"
+    context_object_name = "collection"
+    success_message= "Collection updated"
 
-    return render(
-        request,
-        "showcases/collection_form.html",
-        {"form": form}
-    )
+class CollectionDetailView(PaginatedMemeDetailView):
+    model = Showcase
+    template_name = "showcases/collection_detail.html"
+    context_object_name="collection"
 
-def collection_detail(request, pk):
-    collection = get_object_or_404(Showcase, pk=pk)
-    all_memes = collection.memes.order_by("pk")
-    paginator = Paginator(all_memes, 6)
 
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, "showcases/collection_detail.html",
-                  {
-                      "collection": collection,
-                      "page_obj": page_obj
-                  })
-
-def collection_edit(request, pk):
-    collection = get_object_or_404(Showcase, pk=pk)
-
-    if request.method == "POST":
-        form = CollectionForm(request.POST, instance=collection)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Collection updated.")
-            return redirect("collection-detail", pk=collection.pk)
-    else:
-        form = CollectionForm(instance=collection)
-
-    return render(request, "showcases/collection_form.html",
-                  {
-                      "form": form,
-                      "collection": collection
-                  })
-
-def collection_delete(request,pk):
-    collection = get_object_or_404(Showcase, pk=pk)
-
-    if request.method == "POST":
-        collection.delete()
-        messages.success(request, "Collection deleted.")
-        return redirect("collection-list")
-    
-    return render(request,"showcases/collection_confirm_delete.html",
-                  {
-                      "collection":collection
-                  })
-
+class CollectionDeleteView(SuccessMessageMixin, DeleteView):
+    model = Showcase
+    template_name = "showcases/collection_confirm_delete.html"
+    context_object_name = "collection"
+    success_url = reverse_lazy("collection-list")
+    success_message = "Collection deleted"
