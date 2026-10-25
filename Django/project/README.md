@@ -2,6 +2,12 @@
 
 Meme Atlas is a Django web application for cataloguing memes by category and tag, viewing them in a slideshow, and collecting them into collections.
 
+## Documentation
+
+- [Installation](docs/installation.md)
+- [Usage](docs/usage.md)
+- [Contributors and License](docs/license.md)
+
 ## Features
 
 - Create and browse categories and tags.
