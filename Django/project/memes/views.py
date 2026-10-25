@@ -15,9 +15,6 @@ def remove_stored_file(storage, name):
         pass
 
 
-def home(request):
-    return render(request, "home.html")
-
 
 def meme_detail(request, pk):
     meme = get_object_or_404(Meme, pk=pk)
