@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator
 from django.contrib import messages
 from django.db.models import ProtectedError
 from django.http import HttpResponseRedirect
@@ -7,6 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from .models import Category, Tag
 from .forms import CategoryForm, TagForm
+from memes.mixins import PaginatedMemesMixin
 
 
 
@@ -25,16 +25,7 @@ class CategoryCreateView(SuccessMessageMixin, CreateView):
     success_message ="Category created"
 
 
-class PaginatedMemeDetailView(DetailView):
-    paginate_by = 6
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        paginator = Paginator(self.object.memes.all(),self.paginate_by)
-        context["page_obj"] = paginator.get_page(self.request.GET.get("page"))
-        return context
-
-class CategoryDetailView(PaginatedMemeDetailView):
+class CategoryDetailView(PaginatedMemesMixin, DetailView):
     model = Category
     template_name = "catalog/category_detail.html"
 
@@ -67,7 +58,7 @@ class TagCreateView(SuccessMessageMixin,CreateView):
     success_url=reverse_lazy("tag-list")
     success_message="Tag created"
 
-class TagDetailView(PaginatedMemeDetailView):
+class TagDetailView(PaginatedMemesMixin, DetailView):
     model = Tag
     template_name = "catalog/tag_detail.html" 
 

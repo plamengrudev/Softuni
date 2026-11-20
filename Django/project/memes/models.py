@@ -5,7 +5,7 @@ from django.urls import reverse
 
 class MemeQuerySet(models.QuerySet):
     def popular(self):
-        return self.filter(rating__gt=0).order_by("-rating")
+        return self.order_by("-rating", "-created_at", "-pk")
 
 class Meme(models.Model):
     title = models.CharField(max_length=80)

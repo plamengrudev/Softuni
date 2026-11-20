@@ -39,3 +39,34 @@ class MemeVotingTests(TestCase):
 		)
 		self.meme.refresh_from_db()
 		self.assertEqual(self.meme.rating, 0)
+
+class MemeSlideshowTests(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name="Slideshow test")
+
+    def test_top_rating_includes_zero_and_negative_ratings(self):
+        positive = Meme.objects.create(
+            title="Positive meme",
+            image="memes/positive.png",
+            category=self.category,
+            rating=2,
+        )
+        zero = Meme.objects.create(
+            title="Zero meme",
+            image="memes/zero.png",
+            category=self.category,
+            rating=0,
+        )
+        negative = Meme.objects.create(
+            title="Negative meme",
+            image="memes/negative.png",
+            category=self.category,
+            rating=-1,
+        )
+
+        response = self.client.get("/memes/slideshow/?sort=top")
+
+        self.assertEqual(
+            list(response.context["memes"]),
+            [positive, zero, negative],
+        )

@@ -1,21 +1,11 @@
-from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 
 from .forms import CollectionForm
 from .models import Showcase
+from memes.mixins import PaginatedMemesMixin
 
-
-class PaginatedMemeDetailView(DetailView):
-    paginate_by=6
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        memes=self.object.memes.order_by("pk")
-        paginator= Paginator(memes,self.paginate_by)
-        context["page_obj"] =paginator.get_page(self.request.GET.get("page"))
-        return context
 
 class CollectionListView(ListView):
     model = Showcase
@@ -37,10 +27,11 @@ class CollectionUpdateView(SuccessMessageMixin, UpdateView):
     context_object_name = "collection"
     success_message= "Collection updated"
 
-class CollectionDetailView(PaginatedMemeDetailView):
+class CollectionDetailView(PaginatedMemesMixin, DetailView):
     model = Showcase
     template_name = "showcases/collection_detail.html"
     context_object_name="collection"
+    meme_ordering = ("pk",)
 
 
 class CollectionDeleteView(SuccessMessageMixin, DeleteView):

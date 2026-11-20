@@ -1,19 +1,28 @@
+import logging
 import secrets
 
 from django.contrib import messages
 from django.db.models import F
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import MemeForm
 from .models import Meme
+
+logger = logging.getLogger(__name__)
 
 
 def remove_stored_file(storage, name):
     try:
         storage.delete(name)
     except OSError:
-        pass
-
+        logger.exception("Could not delete stored image %r", name)
+    
+def save_meme_form(form):
+    try:
+        return form.save()
+    except OSError:
+        form.add_error("image","The image could not be saved. Please try again")
+        return None
 
 
 def meme_detail(request, pk):
@@ -48,12 +57,8 @@ def meme_create(request):
         form = MemeForm(request.POST, request.FILES)
 
         if form.is_valid():
-            try:
-                form.save()
-            except OSError:
-                form.add_error("image", "The image could not be saved. Please try again.")
-            else:
-                messages.success(request, "Meme created.")
+            if save_meme_form(form):
+                messages.success(request, "Meme created")
                 return redirect("meme-slideshow")
     else:
         form = MemeForm()
@@ -80,15 +85,14 @@ def meme_edit(request, pk):
         form = MemeForm(request.POST, request.FILES, instance=meme)
 
         if form.is_valid():
-            try:
-                form.save()
-            except OSError:
-                form.add_error("image", "The image could not be saved. Please try again.")
-            else:
-                if old_image and old_image != meme.image.name:
-                    remove_stored_file(meme.image.storage, old_image)
-                messages.success(request, "Meme updated.")
-                return redirect("meme-detail", pk=meme.pk)
+            saved_meme= save_meme_form(form)
+            
+            if saved_meme:
+                if old_image and old_image !=saved_meme.image.name:
+                    remove_stored_file(saved_meme.image.storage, old_image)
+                
+                messages.success(request, "Meme updated")
+                return redirect("meme-detail", pk=saved_meme.pk)
     else:
         form=MemeForm(instance=meme)
     
