@@ -12,20 +12,29 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+import environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+env.read_env(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u=oo#dse@^9roi9z=&1&)@hjtxxm02w4=br@m)p*h*s=ct1pjb'
+# SECRET_KEY = 'django-insecure-u=oo#dse@^9roi9z=&1&)@hjtxxm02w4=br@m)p*h*s=ct1pjb'
+SECRET_KEY = env("DJANGO_SECRET_KEY")
+DEBUG= env.bool("DJANGO_DEBUG", default=False)
+
+ALLOWED_HOSTS=env.list("DJANGO_ALLOWED_HOSTS",default=["127.0.0.1", "localhost"])
+CSRF_TRUSTED_ORIGINS= env.list("DJANGO_CSRF_TRUSTED_ORIGINS",default=[])
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+#DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+#ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,10 +48,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 # Adding my apps here
+    "accounts.apps.AccountsConfig",
     "memes.apps.MemesConfig",
     "catalog.apps.CatalogConfig",
     "showcases.apps.ShowcasesConfig",
 ]
+
+AUTH_USER_MODEL = "accounts.User"
+
+LOGIN_URL ="accounts:login"
+LOGIN_REDIRECT_URL="home"
+LOGOUT_REDIRECT_URL="home"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,13 +93,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": str(env.path(
+            "DJANGO_SQLITE_PATH",
+            default=BASE_DIR / "db.sqlite3",
+        ))
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -120,6 +145,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Email

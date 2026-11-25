@@ -35,6 +35,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("search/", search_results, name="search-results"),
     path("search/suggestions/", search_suggestions, name="search-suggestions"),
+    path("accounts/", include("accounts.urls")),
     path("",include("catalog.urls")),
     path("", include("memes.urls")),
     path("", include("showcases.urls")),

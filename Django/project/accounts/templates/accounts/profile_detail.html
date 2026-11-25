@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ profile_user.display_name|default:profile_user.username }} | Meme Atlas
+{% endblock %}
+
+{% block content %}
+    <article class="profile">
+        <h1>
+            {{ profile_user.display_name|default:profile_user.username }}
+        </h1>
+
+        <p class="profile-username">
+            @{{ profile_user.username }}
+        </p>
+
+        {% if profile_user.avatar %}
+            <img
+                src="{{ profile_user.avatar.url }}"
+                alt="{{ profile_user.display_name|default:profile_user.username }}"
+                class="profile-avatar"
+                width="200"
+            >
+        {% endif %}
+
+        {% if profile_user.bio %}
+            <p>{{ profile_user.bio|linebreaksbr }}</p>
+        {% else %}
+            <p>This member has not added a bio yet.</p>
+        {% endif %}
+
+        <p>
+            Member since {{ profile_user.date_joined|date:"F j, Y" }}
+        </p>
+
+        {% if request.user == profile_user %}
+            <p>
+                <a href="{% url 'accounts:profile-edit' %}">
+                    Edit profile
+                </a>
+            </p>
+        {% endif %}
+    </article>
+{% endblock %}

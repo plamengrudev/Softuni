@@ -71,7 +71,8 @@ body > header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: clamp(0.75rem, 2vw, 1.6rem);
+    flex-wrap: nowrap;
+    gap: clamp(0.6rem, 1.3vw, 1.1rem);
 }
 
 .nav-links a {
@@ -83,6 +84,90 @@ body > header {
 
 .nav-links a:hover {
     color: var(--leaf-dark);
+}
+
+.nav-links > a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.profile-menu {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.profile-menu summary {
+    color: var(--ink);
+    font-size: 0.94rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    white-space: nowrap;
+}
+
+.profile-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.profile-menu summary::after {
+    content: " \25BE";
+    font-size: 0.75em;
+}
+
+.profile-menu summary:hover {
+    color: var(--leaf-dark);
+}
+
+.profile-menu-items {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    z-index: 1000;
+    width: max-content;
+    min-width: 170px;
+    padding: 0.45rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+}
+
+.profile-menu-items > a,
+.profile-menu-logout button {
+    width: 100%;
+    min-height: 0;
+    display: block;
+    padding: 0.55rem 0.7rem;
+    border: 0;
+    border-radius: 6px;
+    color: var(--ink);
+    background: transparent;
+    box-shadow: none;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.profile-menu-items > a:hover,
+.profile-menu-logout button:hover {
+    color: var(--leaf-dark);
+    background: #edf5f0;
+    box-shadow: none;
+    transform: none;
+}
+
+.profile-menu-logout {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .nav-links .nav-cta,
