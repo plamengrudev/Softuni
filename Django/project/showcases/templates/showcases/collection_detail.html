@@ -17,17 +17,21 @@
         </a>
     </p>
 
-    <p>
-        <a href="{% url 'collection-edit' collection.pk %}">
-            Edit collection
-        </a>
-    </p>
+    {% if user.is_authenticated %}
+        {% if user == collection.owner or user.is_staff %}
+            <p>
+                <a href="{% url 'collection-edit' collection.pk %}">
+                    Edit collection
+                </a>
+            </p>
 
-    <p>
-        <a href="{% url 'collection-delete' collection.pk %}" title="Deletes this collection (deletes collection only, not the memes)">
-            Delete collection
-        </a>
-    </p>
+            <p>
+                <a href="{% url 'collection-delete' collection.pk %}" title="Deletes this collection (deletes collection only, not the memes)">
+                    Delete collection
+                </a>
+            </p>
+        {% endif %}
+    {% endif %}
 
     {% if page_obj.object_list %}
         <section>

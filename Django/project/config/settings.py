@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 # Adding my apps here
     "accounts.apps.AccountsConfig",
+    "community.apps.CommunityConfig",
     "memes.apps.MemesConfig",
     "catalog.apps.CatalogConfig",
     "showcases.apps.ShowcasesConfig",

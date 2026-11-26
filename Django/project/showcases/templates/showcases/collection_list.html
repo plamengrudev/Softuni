@@ -5,11 +5,13 @@
 {% block content %}
     <h1>Collections</h1>
 
-    <p>
-        <a href="{% url 'collection-create' %}">
-            Create a collection
-        </a>
-    </p>
+    {% if user.is_authenticated %}
+        <p>
+            <a href="{% url 'collection-create' %}">
+                Create a collection
+            </a>
+        </p>
+    {% endif %}
 
     {% if collections %}
         <ul>

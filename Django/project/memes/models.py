@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
-
+from django.conf import settings
 
 class MemeQuerySet(models.QuerySet):
     def popular(self):
@@ -9,6 +9,12 @@ class MemeQuerySet(models.QuerySet):
 
 class Meme(models.Model):
     title = models.CharField(max_length=80)
+    
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="memes"
+    )
 
     image = models.ImageField(
         upload_to="memes/",

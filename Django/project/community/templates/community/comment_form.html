@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if object %}Edit comment{% else %}Add comment{% endif %}
+    | Meme Atlas
+{% endblock %}
+
+{% block content %}
+    <section>
+        {% if object %}
+            <h1>Edit comment</h1>
+        {% else %}
+            <h1>Comment on {{ meme.title }}</h1>
+        {% endif %}
+
+        <form method="post" class="site-form">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+
+                    {% if field.help_text %}
+                        <small class="help-text">
+                            {{ field.help_text }}
+                        </small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit">
+                {% if object %}Save comment{% else %}Post comment{% endif %}
+            </button>
+
+            <a href="{{ meme.get_absolute_url }}" class="button-secondary">
+                Cancel
+            </a>
+        </form>
+    </section>
+{% endblock %}

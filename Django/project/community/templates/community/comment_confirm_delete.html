@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Comment | Meme Atlas{% endblock %}
+
+{% block content %}
+    <section>
+        <h1>Delete comment?</h1>
+
+        <blockquote>
+            {{ object.body|linebreaksbr }}
+        </blockquote>
+
+        <p>This action cannot be undone.</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button type="submit">Delete comment</button>
+
+            <a href="{{ object.meme.get_absolute_url }}">
+                Cancel
+            </a>
+        </form>
+    </section>
+{% endblock %}

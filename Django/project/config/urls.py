@@ -39,6 +39,7 @@ urlpatterns = [
     path("",include("catalog.urls")),
     path("", include("memes.urls")),
     path("", include("showcases.urls")),
+    path("", include("community.urls")),
     path('about/', about, name="about")
 ]
 

@@ -59,17 +59,76 @@
             </form>
         </section>
         
-        <p>
-            <a href="{% url 'meme-edit' meme.pk %}">
-                Edit meme
-            </a>
-        </p>
+        {% if user.is_authenticated %}
+            {% if user == meme.owner or user.is_staff %}
+                <p>
+                    <a href="{% url 'meme-edit' meme.pk %}">
+                        Edit meme
+                    </a>
+                </p>
 
-        <p>
-            <a href="{% url 'meme-delete' meme.pk %}" title="Delete meme">
-                Delete meme
-            </a>
-        </p>
+                <p>
+                    <a href="{% url 'meme-delete' meme.pk %}" title="Delete meme">
+                        Delete meme
+                    </a>
+                </p>
+            {% endif %}
+        {% endif %}
+
+        <section class="comments">
+            <h2>Comments</h2>
+
+            {% with comments=meme.comments.all %}
+                {% if comments %}
+                    <ul class="comment-list">
+                        {% for comment in comments %}
+                            <li class="comment">
+                                <p class="comment-meta">
+                                    <a href="{% url 'accounts:profile-detail' comment.author.username %}">
+                                        {{ comment.author.display_name|default:comment.author.username }}
+                                    </a>
+                                    · {{ comment.created_at|date:"M j, Y, P" }}
+                                </p>
+
+                                <p>{{ comment.body|linebreaksbr }}</p>
+
+                                {% if user.is_authenticated %}
+                                    {% if user == comment.author or user.is_staff %}
+                                        <p class="comment-actions">
+                                            <a href="{% url 'community:comment-edit' comment.pk %}">
+                                                Edit
+                                            </a>
+                                            <a href="{% url 'community:comment-delete' comment.pk %}">
+                                                Delete
+                                            </a>
+                                        </p>
+                                    {% endif %}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No comments yet.</p>
+                {% endif %}
+            {% endwith %}
+
+            {% if user.is_authenticated %}
+                <p>
+                    <a
+                        href="{% url 'community:comment-create' meme.pk %}"
+                        class="button"
+                    >
+                        Add comment
+                    </a>
+                </p>
+            {% else %}
+                <p>
+                    <a href="{% url 'accounts:login' %}?next={{ request.path }}">
+                        Sign in to comment
+                    </a>
+                </p>
+            {% endif %}
+        </section>
 
     </article>
 {% endblock %}

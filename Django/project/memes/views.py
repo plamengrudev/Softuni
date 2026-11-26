@@ -4,6 +4,8 @@ import secrets
 from django.contrib import messages
 from django.db.models import F
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from .forms import MemeForm
 from .models import Meme
@@ -51,12 +53,13 @@ def meme_detail(request, pk):
 
     return render(request, "memes/meme_detail.html", context)
 
-
+@login_required
 def meme_create(request):
     if request.method == "POST":
         form = MemeForm(request.POST, request.FILES)
 
         if form.is_valid():
+            form.instance.owner = request.user
             if save_meme_form(form):
                 messages.success(request, "Meme created")
                 return redirect("meme-slideshow")
@@ -77,8 +80,12 @@ def meme_slideshow(request):
 
     return render(request, "memes/meme_slideshow.html", {"memes": memes})
 
+@login_required
 def meme_edit(request, pk):
     meme = get_object_or_404(Meme, pk=pk)
+    if meme.owner != request.user and not request.user.is_staff:
+        raise PermissionDenied
+    
     old_image = meme.image.name
 
     if request.method == "POST":
@@ -98,8 +105,11 @@ def meme_edit(request, pk):
     
     return render(request,"memes/meme_edit.html",{"form":form, "meme":meme})
 
+@login_required
 def meme_delete(request, pk):
     meme = get_object_or_404(Meme, pk=pk)
+    if meme.owner != request.user and not request.user.is_staff:
+        raise PermissionDenied
 
     if request.method == "POST":
         storage, image_name = meme.image.storage, meme.image.name

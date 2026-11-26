@@ -855,12 +855,19 @@ div.site-search #search-suggestions .search-result-type.match-tag {
 }
 
 .messages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin: 0 0 1.5rem;
     padding: 0;
     list-style: none;
 }
 
 .messages .message {
+    width: auto;
+    max-width: 100%;
+    display: inline-block;
     margin: 0 0 0.6rem;
     padding: 0.8rem 1.1rem;
     border: 1px solid var(--line);
@@ -869,6 +876,7 @@ div.site-search #search-suggestions .search-result-type.match-tag {
 }
 
 .messages .message.success {
+    white-space: nowrap;
     color: #20552e;
     border-color: #b9d9be;
     background: #e6f3e8;
@@ -884,4 +892,32 @@ div.site-search #search-suggestions .search-result-type.match-tag {
     color: #a33c31;
     border-color: #e6bcb6;
     background: #fbeae8;
+}
+
+main:has(#slideshow) > .messages {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+main:has(#slideshow):has(> .messages) {
+    grid-template-rows: auto auto minmax(420px, auto) auto;
+}
+
+main:has(#slideshow) > .messages ~ h1 {
+    grid-row: 2;
+}
+
+main:has(#slideshow) > .messages ~ #slideshow,
+main:has(#slideshow) > .messages ~ .slideshow-controls {
+    grid-row: 3;
+}
+
+main:has(#slideshow) > .messages ~ .sort-form {
+    grid-row: 4;
+}
+
+@media (max-width: 620px) {
+    main:has(#slideshow):has(> .messages) {
+        grid-template-rows: auto auto minmax(340px, auto) auto;
+    }
 }
